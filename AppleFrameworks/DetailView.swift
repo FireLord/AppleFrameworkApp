@@ -10,6 +10,7 @@ import SwiftUI
 struct DetailView: View {
     var framework: Framework
     @Binding var isShowingDetailView: Bool
+    @State private var isShowingSafariView = false
     
     var body: some View {
         VStack {
@@ -37,12 +38,20 @@ struct DetailView: View {
             Spacer()
             
             Button {
-                print("hi")
+                isShowingSafariView = true
             } label: {
                 AFButton(title: "Learn More")
             }
         }
         .padding()
+        .sheet(isPresented: $isShowingSafariView, content: {
+            SafariView(url: URL(string: framework.urlString) ?? URL(string: "www.apple.com")!)
+        })
+        // Try this for full screen webView
+//        .fullScreenCover(isPresented: $isShowingSafariView, content: {
+//            SafariView(url: URL(string: framework.urlString) ?? URL(string: "www.apple.com")!)
+//        })
+
     }
 }
 
